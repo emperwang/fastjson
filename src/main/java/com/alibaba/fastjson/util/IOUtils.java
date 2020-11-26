@@ -86,6 +86,7 @@ public class IOUtils {
     }
     
     public static void loadPropertiesFromFile(){
+        // 安全模型的特权使用
         InputStream imputStream = AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
             public InputStream run() {
                 ClassLoader cl = Thread.currentThread().getContextClassLoader();
@@ -99,6 +100,7 @@ public class IOUtils {
         
         if (null != imputStream) {
             try {
+                // 这里加载了一个默认的配置文件  fastjson.properties
                 DEFAULT_PROPERTIES.load(imputStream);
                 imputStream.close();
             } catch (java.io.IOException e) {

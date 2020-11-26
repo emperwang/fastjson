@@ -49,10 +49,12 @@ import com.alibaba.fastjson.util.TypeUtils;
 public class JSONObject extends JSON implements Map<String, Object>, Cloneable, Serializable, InvocationHandler {
 
     private static final long         serialVersionUID         = 1L;
+    // 初始化容量
     private static final int          DEFAULT_INITIAL_CAPACITY = 16;
-
+    // 如果设置了order的, 此为linkedHashMap
+    // 否则为 HashMap
     private final Map<String, Object> map;
-
+    //  无参构造函数, 设置初始化容量为16, order=false
     public JSONObject(){
         this(DEFAULT_INITIAL_CAPACITY, false);
     }
@@ -107,8 +109,10 @@ public class JSONObject extends JSON implements Map<String, Object>, Cloneable, 
     }
 
     public Object get(Object key) {
+        // 直接获取 key对应的value
         Object val = map.get(key);
-
+        // 如果直接获取失败,则判断key是否为下面的一些类型
+        // 如果是的话 则把key转换为 string,再获取一次
         if (val == null) {
             if (key instanceof Number
                     || key instanceof Character
@@ -178,11 +182,11 @@ public class JSONObject extends JSON implements Map<String, Object>, Cloneable, 
 
     public Boolean getBoolean(String key) {
         Object value = get(key);
-
+        // 获取的值 为 null,则直接返回 null
         if (value == null) {
             return null;
         }
-
+        // 把获取到的值 转换为 boolean
         return castToBoolean(value);
     }
 
@@ -192,7 +196,7 @@ public class JSONObject extends JSON implements Map<String, Object>, Cloneable, 
         if (value == null) {
             return null;
         }
-
+        // 把值转换为  byte数组
         return castToBytes(value);
     }
 
@@ -348,7 +352,7 @@ public class JSONObject extends JSON implements Map<String, Object>, Cloneable, 
 
         return castToTimestamp(value);
     }
-
+    // 放入操作,就是把数据放入到 map中
     public Object put(String key, Object value) {
         return map.put(key, value);
     }
@@ -379,7 +383,7 @@ public class JSONObject extends JSON implements Map<String, Object>, Cloneable, 
     public Object remove(Object key) {
         return map.remove(key);
     }
-
+    // fluent 相当于是流操作的接口
     public JSONObject fluentRemove(Object key) {
         map.remove(key);
         return this;

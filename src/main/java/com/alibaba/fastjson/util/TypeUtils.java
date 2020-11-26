@@ -287,10 +287,11 @@ public class TypeUtils{
     }
 
     public static Short castToShort(Object value){
+        // 参数为null, 返回null
         if(value == null){
             return null;
         }
-
+        // bigDecimal 和 number 值 直接把其转换为 short值
         if(value instanceof BigDecimal){
             return shortValue((BigDecimal) value);
         }
@@ -306,9 +307,10 @@ public class TypeUtils{
                     || "NULL".equals(strVal)){
                 return null;
             }
+            // 从字符串 解析 short值
             return Short.parseShort(strVal);
         }
-
+        // boolean值转换为 short值
         if (value instanceof Boolean) {
             return ((Boolean) value).booleanValue() ? (short) 1 : (short) 0;
         }
@@ -1012,40 +1014,47 @@ public class TypeUtils{
     }
 
     public static Boolean castToBoolean(Object value){
+        // 参数为null, 返回null
         if(value == null){
             return null;
         }
+        // 参数本身是 boolean, 那么就返回boolean
         if(value instanceof Boolean){
             return (Boolean) value;
         }
-
+        // 如果是 bigDecimal,那么就判断其 int值是否是1
         if(value instanceof BigDecimal){
             return intValue((BigDecimal) value) == 1;
         }
-
+        // number值,则判断其int值是否为1
         if(value instanceof Number){
             return ((Number) value).intValue() == 1;
         }
-
+        // 如果是字符串
         if(value instanceof String){
             String strVal = (String) value;
+            // 字符串为null, 则返回null
             if(strVal.length() == 0 //
                     || "null".equals(strVal) //
                     || "NULL".equals(strVal)){
                 return null;
             }
+            // 如果为true 或者 字符串1 ,则返回true
             if("true".equalsIgnoreCase(strVal) //
                     || "1".equals(strVal)){
                 return Boolean.TRUE;
             }
+            // 如果是false 或 字符串0  返回false
             if("false".equalsIgnoreCase(strVal) //
                     || "0".equals(strVal)){
                 return Boolean.FALSE;
             }
+            // 如果是Y 或 T 返回 true
             if("Y".equalsIgnoreCase(strVal) //
                     || "T".equals(strVal)){
                 return Boolean.TRUE;
             }
+            // 如果是 F 或者 N  返回 false
             if("F".equalsIgnoreCase(strVal) //
                     || "N".equals(strVal)){
                 return Boolean.FALSE;

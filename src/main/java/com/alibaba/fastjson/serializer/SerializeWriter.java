@@ -342,11 +342,13 @@ public final class SerializeWriter extends Writer {
      * @param off Offset from which to start reading characters
      * @param len Number of characters to be written
      */
+    // 这里的写入操作
+    // 可见就是把str写入到 buf中
     public void write(String str, int off, int len) {
         int newcount = count + len;
         if (newcount > buf.length) {
             if (writer == null) {
-                expandCapacity(newcount);
+                expandCapacity(newcount); // 扩容  每次扩容1.5
             } else {
                 do {
                     int rest = buf.length - count;
@@ -359,6 +361,7 @@ public final class SerializeWriter extends Writer {
                 newcount = len;
             }
         }
+        // 把str中的值 写入到 buf 数组中
         str.getChars(off, off + len, buf, count);
         count = newcount;
     }

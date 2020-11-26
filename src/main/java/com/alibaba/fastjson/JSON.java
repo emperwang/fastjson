@@ -64,10 +64,14 @@ import com.alibaba.fastjson.util.TypeUtils;
  * @author wenshao[szujobs@hotmail.com]
  */
 public abstract class JSON implements JSONStreamAware, JSONAware {
+    // 默认的时区
     public static TimeZone         defaultTimeZone      = TimeZone.getDefault();
+    // Locale 也使用默认的
     public static Locale           defaultLocale        = Locale.getDefault();
     public static String           DEFAULT_TYPE_KEY     = "@type";
+    // 过滤器
     static final SerializeFilter[] emptyFilters         = new SerializeFilter[0];
+    // 默认的时间格式化 格式
     public static String           DEFFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static int              DEFAULT_PARSER_FEATURE;
     public static int              DEFAULT_GENERATE_FEATURE;
@@ -84,6 +88,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
         features |= Feature.AllowArbitraryCommas.getMask();
         features |= Feature.SortFeidFastMatch.getMask();
         features |= Feature.IgnoreNotMatch.getMask();
+        // 默认的PARSER 的特性
         DEFAULT_PARSER_FEATURE = features;
     }
 
@@ -95,7 +100,7 @@ public abstract class JSON implements JSONStreamAware, JSONAware {
         features |= SerializerFeature.SortField.getMask();
 
         DEFAULT_GENERATE_FEATURE = features;
-
+        // 加载默认的配置文件
         config(IOUtils.DEFAULT_PROPERTIES);
     }
 
